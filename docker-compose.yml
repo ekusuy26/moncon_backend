@@ -6,8 +6,29 @@ services:
     container_name: ${APP_NAME}_backend
     tty: true
     volumes:
-      - ./app:/code/app
+      - ./src:/code
     ports:
-      - 8000:80
+      - 8000:8080
+    depends_on:
+      - db
+  db:
+    container_name: ${APP_NAME}_db
+    build:
+      context: .
+      dockerfile: ./db_setting/Dockerfile
+      args:
+        - MYSQL_DATABASE=${DB_NAME}
+        - MYSQL_USER=${DB_USER}
+        - MYSQL_PASSWORD=${DB_PASS}
+        - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+    ports:
+      - 3336:3306
+    volumes:
+      - db-store:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
 volumes:
   db-store:

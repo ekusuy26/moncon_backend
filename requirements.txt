@@ -1,2 +1,7 @@
 fastapi
 uvicorn[standard]
+sqlalchemy
+mysqlclient
+alembic
+pydantic-settings
+python-dotenv
